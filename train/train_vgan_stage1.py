@@ -98,16 +98,16 @@ if __name__ == "__main__":
     DATA_PATH = os.path.join(args.input, data_cfg.data_root)
     SAVE_PATH = os.path.join(USER_ROOT, data_cfg.save_training_results)
     TRAIN_DATA_PATH = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.train_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.train_data)
     VALID_DATA_PATH = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.valid_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.valid_data)
 
     COCO_TEST_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_test_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_test_data)
     COCO_TRAIN_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_train_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_train_data)
     COCO_VALID_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_valid_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_valid_data)
 
     # Only RGB
     # COCO_TEST_DATA = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.external_data_pickle)

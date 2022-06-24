@@ -36,17 +36,24 @@ DEBUG = False
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', '-i', help="user path where the datasets are located", type=str)
-    parser.add_argument('--output', '-o', help='user path where to save', type=str)
-    parser.add_argument('--logs', '-l', help='path where to save logs', type=str)
-    parser.add_argument('--batch_size', '-b', default=gan_cfg.batch_size, help='batch size for dataloader', type=int)
-    parser.add_argument('--learning_rate', '-lr', default=gan_cfg.learning_rate, help='learning rate', type=float)
-    parser.add_argument('--epochs', '-e', default=gan_cfg.n_epochs, help='number of epochs', type=int)
+    parser.add_argument(
+        '--input', '-i', help="user path where the datasets are located", type=str)
+    parser.add_argument(
+        '--output', '-o', help='user path where to save', type=str)
+    parser.add_argument(
+        '--logs', '-l', help='path where to save logs', type=str)
+    parser.add_argument('--batch_size', '-b', default=gan_cfg.batch_size,
+                        help='batch size for dataloader', type=int)
+    parser.add_argument('--learning_rate', '-lr',
+                        default=gan_cfg.learning_rate, help='learning rate', type=float)
+    parser.add_argument('--epochs', '-e', default=gan_cfg.n_epochs,
+                        help='number of epochs', type=int)
     parser.add_argument('--image_crop', '-im_crop', default=gan_cfg.image_crop, help='size to which image should '
                                                                                      'be cropped', type=int)
     parser.add_argument('--image_size', '-im_size', default=gan_cfg.image_size, help='size to which image should '
                                                                                      'be scaled', type=int)
-    parser.add_argument('--device', '-d', default=gan_cfg.device, help='what device to use', type=str)
+    parser.add_argument('--device', '-d', default=gan_cfg.device,
+                        help='what device to use', type=str)
     parser.add_argument('--num_workers', '-nw', default=gan_cfg.num_workers, help='number of workers for dataloader',
                         type=int)
     parser.add_argument('--step_size', '-step', default=gan_cfg.step_size, help='number of epochs after which '
@@ -57,16 +64,20 @@ if __name__ == "__main__":
                         type=float)
     parser.add_argument('--latent_dim', '-lat_dim', default=gan_cfg.latent_dim, help='dimension of the latent space',
                         type=int)
-    parser.add_argument('--message', '-m', default='default message', help='experiment description', type=str)
+    parser.add_argument('--message', '-m', default='default message',
+                        help='experiment description', type=str)
     parser.add_argument('--pretrained_gan', '-pretrain', default=gan_cfg.pretrained_gan,
                         help='pretrained gan to continue training', type=str)
     parser.add_argument('-load_epoch', '-pretrain_epoch', default=gan_cfg.load_epoch, help='epoch of the pretrained model',
                         type=int)
     parser.add_argument('--recon_level', default=gan_cfg.recon_level, type=int,
                         help='reconstruction level in the descriminator')
-    parser.add_argument('--lambda_mse', default=gan_cfg.lambda_mse, type=float, help='weight for style error')
-    parser.add_argument('--decay_mse', default=gan_cfg.decay_mse, type=float, help='mse weight decrease')
-    parser.add_argument('--decay_lr', default=gan_cfg.decay_lr, type=float, help='learning rate decay for lr scheduler')
+    parser.add_argument('--lambda_mse', default=gan_cfg.lambda_mse,
+                        type=float, help='weight for style error')
+    parser.add_argument('--decay_mse', default=gan_cfg.decay_mse,
+                        type=float, help='mse weight decrease')
+    parser.add_argument('--decay_lr', default=gan_cfg.decay_lr,
+                        type=float, help='learning rate decay for lr scheduler')
     parser.add_argument('--equilibrium', default=gan_cfg.equilibrium, type=float,
                         help='equilibrium for the generator/discriminator game')
     parser.add_argument('--margin', default=gan_cfg.decay_margin, type=float,
@@ -78,7 +89,8 @@ if __name__ == "__main__":
     parser.add_argument('--decoder', '-dec', default=gan_cfg.decoder_weights,
                         help='pretrained vae-gan model to fix decoder weights, training stage II', type=str)
     parser.add_argument('--mode', default='vae-gan', help='vae, vae-gan')
-    parser.add_argument('--dataset', default='bold5000', help='bold5000, mnist69')
+    parser.add_argument('--dataset', default='bold5000',
+                        help='bold5000, mnist69')
 
     args = parser.parse_args()
 
@@ -88,12 +100,16 @@ if __name__ == "__main__":
     SAVE_PATH = os.path.join(USER_ROOT, data_cfg.save_training_results)
 
     # Split w/o fixed stimuli IDs
-    TRAIN_DATA_PATH = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.train_data)
-    VALID_DATA_PATH = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.valid_data)
+    TRAIN_DATA_PATH = os.path.join(
+        DATA_PATH, data_cfg.data_root, data_cfg.train_data)
+    VALID_DATA_PATH = os.path.join(
+        DATA_PATH, data_cfg.data_root, data_cfg.valid_data)
 
     # Split with fixed stimuli IDs
-    TRAIN_STIMULI = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.train_stimuli_split)
-    VALID_STIMULI = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.valid_stimuli_split)
+    TRAIN_STIMULI = os.path.join(
+        DATA_PATH, data_cfg.data_root, data_cfg.train_stimuli_split)
+    VALID_STIMULI = os.path.join(
+        DATA_PATH, data_cfg.data_root, data_cfg.valid_stimuli_split)
 
     # Path to the model from the 1st stage
     DECODER_WEIGHTS = os.path.join(USER_ROOT, data_cfg.save_training_results, 'gan', args.decoder[0], args.decoder[0] +
@@ -107,7 +123,8 @@ if __name__ == "__main__":
     timestep = time.strftime("%Y%m%d-%H%M%S")
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger()
-    file_handler = logging.FileHandler(os.path.join(args.logs, 'train_gan_cog_2st' + timestep))
+    file_handler = logging.FileHandler(os.path.join(
+        args.logs, 'train_gan_cog_2st' + timestep))
     logger = logging.getLogger()
     file_handler.setLevel(logging.INFO)
     logger.addHandler(file_handler)
@@ -123,14 +140,18 @@ if __name__ == "__main__":
 
     # Create directory for results
     if DEBUG:
-        saving_dir = os.path.join(SAVE_PATH, 'debug', 'debug_gan_cog_2st_{}'.format(timestep))
+        saving_dir = os.path.join(
+            SAVE_PATH, 'debug', 'debug_gan_cog_2st_{}'.format(timestep))
     else:
-        saving_dir = os.path.join(SAVE_PATH, 'gan_cog_2st', 'gan_cog_2st_{}'.format(timestep))
+        saving_dir = os.path.join(
+            SAVE_PATH, 'gan_cog_2st', 'gan_cog_2st_{}'.format(timestep))
     if not os.path.exists(saving_dir):
         os.makedirs(saving_dir)
     if args.pretrained_gan is not None:
-        pretrained_model_dir = os.path.join(SAVE_PATH, 'gan_cog_2st', args.pretrained_gan, args.pretrained_gan + '.pth')
-    saving_name = os.path.join(saving_dir, 'gan_cog_2st_{}.pth'.format(timestep))
+        pretrained_model_dir = os.path.join(
+            SAVE_PATH, 'gan_cog_2st', args.pretrained_gan, args.pretrained_gan + '.pth')
+    saving_name = os.path.join(
+        saving_dir, 'gan_cog_2st_{}.pth'.format(timestep))
 
     # Save arguments
     with open(os.path.join(saving_dir, 'config.txt'), 'w') as f:
@@ -160,60 +181,75 @@ if __name__ == "__main__":
         training_data = BoldRoiDataloader(dataset=train_data,
                                           root_path=DATA_PATH,
                                           transform=transforms.Compose([
-                                                                    CenterCrop(output_size=args.image_crop),
-                                                                    Rescale(output_size=args.image_size),
-                                                                    RandomShift(),
-                                                                    SampleToTensor(),
-                                                                    Normalization(mean=gan_cfg.mean,
-                                                                                  std=gan_cfg.std)]))
+                                              CenterCrop(
+                                                  output_size=args.image_crop),
+                                              Rescale(
+                                                  output_size=args.image_size),
+                                              RandomShift(),
+                                              SampleToTensor(),
+                                              Normalization(mean=gan_cfg.mean,
+                                                            std=gan_cfg.std)]))
 
         validation_data = BoldRoiDataloader(dataset=valid_data,
                                             root_path=DATA_PATH,
                                             transform=transforms.Compose([
-                                                                    CenterCrop(output_size=args.image_crop),
-                                                                    Rescale(output_size=args.image_size),
-                                                                    SampleToTensor(),
-                                                                    Normalization(mean=gan_cfg.mean,
-                                                                                  std=gan_cfg.std)]))
+                                                CenterCrop(
+                                                    output_size=args.image_crop),
+                                                Rescale(
+                                                    output_size=args.image_size),
+                                                SampleToTensor(),
+                                                Normalization(mean=gan_cfg.mean,
+                                                              std=gan_cfg.std)]))
 
-        dataloader_train = DataLoader(training_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
-        dataloader_valid = DataLoader(validation_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
+        dataloader_train = DataLoader(
+            training_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
+        dataloader_valid = DataLoader(
+            validation_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
 
         NUM_VOXELS = len(train_data[0]['fmri'])
 
     elif args.dataset == 'mnist69':
 
         # Path to mnist69 dataset
-        MNIST_PATH = os.path.join(USER_ROOT, data_cfg.data_root, data_cfg.mnist_path)
+        MNIST_PATH = os.path.join(
+            USER_ROOT, data_cfg.data_root, data_cfg.mnist_path)
 
         mnist_data = loadmat(MNIST_PATH)
-        train_data = np.concatenate((mnist_data['X'], mnist_data['Y']), axis=1)[:80]
-        valid_data = np.concatenate((mnist_data['X'], mnist_data['Y']), axis=1)[80:]
+        train_data = np.concatenate(
+            (mnist_data['X'], mnist_data['Y']), axis=1)[:80]
+        valid_data = np.concatenate(
+            (mnist_data['X'], mnist_data['Y']), axis=1)[80:]
 
         training_data = MnistDataloader(dataset=train_data, transform=transforms.Compose([
-                                                                        Rescale(output_size=args.image_size),
-                                                                        SampleToTensor()]))
+            Rescale(output_size=args.image_size),
+            SampleToTensor()]))
 
         validation_data = MnistDataloader(dataset=valid_data, transform=transforms.Compose([
-                                                                        Rescale(output_size=args.image_size),
-                                                                        SampleToTensor()]))
+            Rescale(output_size=args.image_size),
+            SampleToTensor()]))
 
-        dataloader_train = DataLoader(training_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
-        dataloader_valid = DataLoader(validation_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
+        dataloader_train = DataLoader(
+            training_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
+        dataloader_valid = DataLoader(
+            validation_data, batch_size=args.batch_size, shuffle=False, num_workers=args.num_workers)
 
         NUM_VOXELS = train_data[:, 28 * 28:].shape[1]
 
     writer = SummaryWriter(saving_dir + '/runs_' + timestep)
-    writer_encoder = SummaryWriter(saving_dir + '/runs_' + timestep + '/encoder')
-    writer_decoder = SummaryWriter(saving_dir + '/runs_' + timestep + '/decoder')
-    writer_discriminator = SummaryWriter(saving_dir + '/runs_' + timestep + '/discriminator')
+    writer_encoder = SummaryWriter(
+        saving_dir + '/runs_' + timestep + '/encoder')
+    writer_decoder = SummaryWriter(
+        saving_dir + '/runs_' + timestep + '/decoder')
+    writer_discriminator = SummaryWriter(
+        saving_dir + '/runs_' + timestep + '/discriminator')
 
     encoder = Encoder(z_size=args.latent_dim).to(device)
     decoder = Decoder(z_size=args.latent_dim, size=encoder.size).to(device)
     teacher_model = VaeGan(device=device, z_size=args.latent_dim).to(device)
     # discriminator = Discriminator().to(device)
     # teacher_model = WaeGan(device=device, z_size=args.latent_dim).to(device)
-    teacher_model.load_state_dict(torch.load(DECODER_WEIGHTS, map_location=device))
+    teacher_model.load_state_dict(torch.load(
+        DECODER_WEIGHTS, map_location=device))
     discriminator = teacher_model.discriminator
     teacher_model.discriminator.train()
 
@@ -226,7 +262,8 @@ if __name__ == "__main__":
     logging.info('Validation data length:', len(valid_data))
 
     # Define model
-    cognitive_encoder = CognitiveEncoder(input_size=NUM_VOXELS, z_size=args.latent_dim).to(device)
+    cognitive_encoder = CognitiveEncoder(
+        input_size=NUM_VOXELS, z_size=args.latent_dim).to(device)
     model = VaeGanCognitive(device=device, encoder=cognitive_encoder, decoder=teacher_model.decoder,
                             discriminator=discriminator, teacher_net=teacher_model, stage=2,
                             z_size=args.latent_dim).to(device)
@@ -239,11 +276,13 @@ if __name__ == "__main__":
 
     if args.pretrained_gan is not None and os.path.exists(pretrained_model_dir.replace(".pth", ".csv")):
         logging.info('Load pretrained model')
-        model_dir = pretrained_model_dir.replace(".pth", '_{}.pth'.format(args.load_epoch))
+        model_dir = pretrained_model_dir.replace(
+            ".pth", '_{}.pth'.format(args.load_epoch))
         model.load_state_dict(torch.load(model_dir))
         model.eval()
         results = pd.read_csv(pretrained_model_dir.replace(".pth", ".csv"))
-        results = {col_name: list(results[col_name].values) for col_name in results.columns}
+        results = {col_name: list(results[col_name].values)
+                   for col_name in results.columns}
         stp = 1 + len(results['epochs'])
         if gan_cfg.evaluate:
             images_dir = os.path.join(saving_dir, 'images')
@@ -254,7 +293,8 @@ if __name__ == "__main__":
             print("Mean PCC:", pcc)
             print("Mean SSIM:", ssim)
             print("Mean MSE:", mse)
-            obj_score = objective_assessment(model, dataloader_valid, dataset='bold')
+            obj_score = objective_assessment(
+                model, dataloader_valid, dataset='bold')
             print("Objective score PCC", obj_score[0])
             print("Objective score SSIM", obj_score[1])
             exit(0)
@@ -282,21 +322,24 @@ if __name__ == "__main__":
     lr_encoder = ExponentialLR(optimizer_encoder, gamma=args.decay_lr)
     optimizer_discriminator = torch.optim.RMSprop(params=model.discriminator.parameters(), lr=args.learning_rate,
                                                   alpha=0.9, eps=1e-8, weight_decay=0, momentum=0, centered=False)
-    lr_discriminator = ExponentialLR(optimizer_discriminator, gamma=args.decay_lr)
+    lr_discriminator = ExponentialLR(
+        optimizer_discriminator, gamma=args.decay_lr)
     optimizer_decoder = torch.optim.RMSprop(params=model.decoder.parameters(), lr=args.learning_rate,
-                                                  alpha=0.9, eps=1e-8, weight_decay=0, momentum=0, centered=False)
+                                            alpha=0.9, eps=1e-8, weight_decay=0, momentum=0, centered=False)
     lr_decoder = ExponentialLR(optimizer_decoder, gamma=args.decay_lr)
-
 
     # Metrics
     pearson_correlation = PearsonCorrelation()
-    structural_similarity = StructuralSimilarity(mean=gan_cfg.mean, std=gan_cfg.std)
+    structural_similarity = StructuralSimilarity(
+        mean=gan_cfg.mean, std=gan_cfg.std)
     mse_loss = nn.MSELoss()
 
     result_metrics_train = {}
     result_metrics_valid = {}
-    metrics_train = {'train_PCC': pearson_correlation, 'train_SSIM': structural_similarity, 'train_MSE': mse_loss}
-    metrics_valid = {'valid_PCC': pearson_correlation, 'valid_SSIM': structural_similarity, 'valid_MSE': mse_loss}
+    metrics_train = {'train_PCC': pearson_correlation,
+                     'train_SSIM': structural_similarity, 'train_MSE': mse_loss}
+    metrics_valid = {'valid_PCC': pearson_correlation,
+                     'valid_SSIM': structural_similarity, 'valid_MSE': mse_loss}
 
     if metrics_valid is not None:
         for key in metrics_valid.keys():
@@ -328,7 +371,8 @@ if __name__ == "__main__":
                 for param in model.decoder.parameters():
                     param.requires_grad = False
 
-                x_gt, x_tilde, disc_class, disc_layer, mus, log_variances = model(data_batch)
+                x_gt, x_tilde, disc_class, disc_layer, mus, log_variances = model(
+                    data_batch)
 
                 # Split so we can get the different parts
                 disc_layer_original = disc_layer[:batch_size]
@@ -341,13 +385,13 @@ if __name__ == "__main__":
 
                 # VAE/GAN
                 nle, kld, mse, bce_dis_original, bce_dis_predicted, bce_dis_sampled = VaeGanCognitive.loss(x_gt, x_tilde,
-                                                                                                 disc_layer_original,
-                                                                                                 disc_layer_predicted,
-                                                                                                 disc_layer_sampled,
-                                                                                                 disc_class_original,
-                                                                                                 disc_class_predicted,
-                                                                                                 disc_class_sampled,
-                                                                                                 mus, log_variances)
+                                                                                                           disc_layer_original,
+                                                                                                           disc_layer_predicted,
+                                                                                                           disc_layer_sampled,
+                                                                                                           disc_class_original,
+                                                                                                           disc_class_predicted,
+                                                                                                           disc_class_sampled,
+                                                                                                           mus, log_variances)
 
                 # VAE/GAN loss
                 if args.mode == 'vae-gan':
@@ -355,13 +399,16 @@ if __name__ == "__main__":
                     # loss_decoder = torch.sum(lambda_mse * mse)
                     # loss_encoder = torch.sum(kld) + torch.sum(0.1 * mse)
                     loss_encoder = torch.sum(kld) + torch.sum(mse)
-                    loss_discriminator = torch.sum(bce_dis_original) + torch.sum(bce_dis_predicted) + torch.sum(bce_dis_sampled)
-                    loss_decoder = torch.sum(args.lambda_mse * mse) - (1.0 - args.lambda_mse) * loss_discriminator
+                    loss_discriminator = torch.sum(
+                        bce_dis_original) + torch.sum(bce_dis_predicted) + torch.sum(bce_dis_sampled)
+                    loss_decoder = torch.sum(
+                        args.lambda_mse * mse) - (1.0 - args.lambda_mse) * loss_discriminator
 
                 # VAE loss
                 if args.mode == 'vae':
                     loss_encoder = torch.sum(kld) + torch.sum(nle)
-                    loss_discriminator = torch.sum(bce_dis_original) + torch.sum(bce_dis_sampled)
+                    loss_discriminator = torch.sum(
+                        bce_dis_original) + torch.sum(bce_dis_sampled)
                     loss_decoder = torch.sum(args.lambda_mse * nle)
                     train_dis = False
 
@@ -403,18 +450,23 @@ if __name__ == "__main__":
                 # Discriminator
                 if train_dis:
                     loss_discriminator.backward()
-                    [p.grad.data.clamp_(-1, 1) for p in model.discriminator.parameters()]
+                    [p.grad.data.clamp_(-1, 1)
+                     for p in model.discriminator.parameters()]
                     optimizer_discriminator.step()
 
                 logging.info(f'Epoch  {idx_epoch} {batch_idx + 1:3.0f} / {100 * (batch_idx + 1) / len(dataloader_train):2.3f}%, '
-                            f'---- encoder loss: {loss_encoder_mean:.5f} ---- | '
-                            f'---- decoder loss: {loss_decoder_mean:.5f} ---- | ' 
-                            f'---- discriminator loss: {loss_discriminator_mean:.5f}')
+                             f'---- encoder loss: {loss_encoder_mean:.5f} ---- | '
+                             f'---- decoder loss: {loss_decoder_mean:.5f} ---- | '
+                             f'---- discriminator loss: {loss_discriminator_mean:.5f}')
 
-                writer.add_scalar('loss_reconstruction_batch', loss_nle_mean, step_index)
-                writer_encoder.add_scalar('loss_encoder_batch', loss_encoder_mean, step_index)
-                writer_decoder.add_scalar('loss_decoder_discriminator_batch', loss_decoder_mean, step_index)
-                writer_discriminator.add_scalar('loss_decoder_discriminator_batch', loss_discriminator_mean, step_index)
+                writer.add_scalar('loss_reconstruction_batch',
+                                  loss_nle_mean, step_index)
+                writer_encoder.add_scalar(
+                    'loss_encoder_batch', loss_encoder_mean, step_index)
+                writer_decoder.add_scalar(
+                    'loss_decoder_discriminator_batch', loss_decoder_mean, step_index)
+                writer_discriminator.add_scalar(
+                    'loss_decoder_discriminator_batch', loss_discriminator_mean, step_index)
 
                 step_index += 1
 
@@ -432,9 +484,12 @@ if __name__ == "__main__":
                 lambda_mse = 1
 
             writer.add_scalar('loss_reconstruction', loss_nle_mean, idx_epoch)
-            writer_encoder.add_scalar('loss_encoder', loss_encoder_mean, idx_epoch)
-            writer_decoder.add_scalar('loss_decoder_discriminator', loss_decoder_mean, idx_epoch)
-            writer_discriminator.add_scalar('loss_decoder_discriminator', loss_discriminator_mean, idx_epoch)
+            writer_encoder.add_scalar(
+                'loss_encoder', loss_encoder_mean, idx_epoch)
+            writer_decoder.add_scalar(
+                'loss_decoder_discriminator', loss_decoder_mean, idx_epoch)
+            writer_discriminator.add_scalar(
+                'loss_decoder_discriminator', loss_discriminator_mean, idx_epoch)
 
             if not idx_epoch % 2:
 
@@ -445,15 +500,19 @@ if __name__ == "__main__":
                 fig, ax = plt.subplots(figsize=(10, 10))
                 ax.set_xticks([])
                 ax.set_yticks([])
-                ax.imshow(make_grid(data_batch['image'][: 25].cpu().detach(), nrow=5, normalize=True).permute(1, 2, 0))
-                gt_dir = os.path.join(images_dir, 'epoch_' + str(idx_epoch) + '_ground_truth_' + 'grid')
+                ax.imshow(make_grid(data_batch['image'][: 25].cpu(
+                ).detach(), nrow=5, normalize=True).permute(1, 2, 0))
+                gt_dir = os.path.join(
+                    images_dir, 'epoch_' + str(idx_epoch) + '_ground_truth_' + 'grid')
                 plt.savefig(gt_dir)
 
                 fig, ax = plt.subplots(figsize=(10, 10))
                 ax.set_xticks([])
                 ax.set_yticks([])
-                ax.imshow(make_grid(x_tilde[: 25].cpu().detach(), nrow=5, normalize=True).permute(1, 2, 0))
-                output_dir = os.path.join(images_dir, 'epoch_' + str(idx_epoch) + '_output_' + 'grid')
+                ax.imshow(make_grid(x_tilde[: 25].cpu().detach(
+                ), nrow=5, normalize=True).permute(1, 2, 0))
+                output_dir = os.path.join(
+                    images_dir, 'epoch_' + str(idx_epoch) + '_output_' + 'grid')
                 plt.savefig(output_dir)
 
             logging.info('Evaluation')
@@ -463,24 +522,29 @@ if __name__ == "__main__":
 
                 with no_grad():
 
-                    data_target = Variable(data_batch['image'], requires_grad=False).float().to(device)
+                    data_target = Variable(
+                        data_batch['image'], requires_grad=False).float().to(device)
                     out = model(data_batch)
 
                     # Validation metrics for the first validation batch
                     if metrics_valid is not None:
                         for key, metric in metrics_valid.items():
                             if key == 'cosine_similarity':
-                                result_metrics_valid[key] = metric(out, data_target).mean()
+                                result_metrics_valid[key] = metric(
+                                    out, data_target).mean()
                             else:
-                                result_metrics_valid[key] = metric(out, data_target)
+                                result_metrics_valid[key] = metric(
+                                    out, data_target)
 
                     # Training metrics for the last training batch
                     if metrics_train is not None:
                         for key, metric in metrics_train.items():
                             if key == 'cosine_similarity':
-                                result_metrics_train[key] = metric(x_tilde, x_gt).mean()
+                                result_metrics_train[key] = metric(
+                                    x_tilde, x_gt).mean()
                             else:
-                                result_metrics_train[key] = metric(x_tilde, x_gt)
+                                result_metrics_train[key] = metric(
+                                    x_tilde, x_gt)
 
                     out = out.data.cpu()
 
@@ -492,15 +556,19 @@ if __name__ == "__main__":
                         fig, ax = plt.subplots(figsize=(10, 10))
                         ax.set_xticks([])
                         ax.set_yticks([])
-                        ax.imshow(make_grid(data_target[: 25].cpu().detach(), nrow=5, normalize=True).permute(1, 2, 0))
-                        gt_dir = os.path.join(images_dir, 'epoch_' + str(idx_epoch) + '_ground_truth_' + 'grid')
+                        ax.imshow(make_grid(data_target[: 25].cpu().detach(
+                        ), nrow=5, normalize=True).permute(1, 2, 0))
+                        gt_dir = os.path.join(
+                            images_dir, 'epoch_' + str(idx_epoch) + '_ground_truth_' + 'grid')
                         plt.savefig(gt_dir)
 
                     fig, ax = plt.subplots(figsize=(10, 10))
                     ax.set_xticks([])
                     ax.set_yticks([])
-                    ax.imshow(make_grid(out[: 25].cpu().detach(), nrow=5, normalize=True).permute(1, 2, 0))
-                    output_dir = os.path.join(images_dir, 'epoch_' + str(idx_epoch) + '_output_' + 'grid')
+                    ax.imshow(make_grid(out[: 25].cpu().detach(
+                    ), nrow=5, normalize=True).permute(1, 2, 0))
+                    output_dir = os.path.join(
+                        images_dir, 'epoch_' + str(idx_epoch) + '_output_' + 'grid')
                     plt.savefig(output_dir)
 
                     out = (out + 1) / 2
@@ -547,7 +615,8 @@ if __name__ == "__main__":
                     break
 
             if not idx_epoch % 5 and not DEBUG:
-                torch.save(model.state_dict(), saving_name.replace('.pth', '_' + str(idx_epoch) + '.pth'))
+                torch.save(model.state_dict(), saving_name.replace(
+                    '.pth', '_' + str(idx_epoch) + '.pth'))
                 logging.info('Saving model')
 
                 # Record losses & scores
@@ -559,16 +628,19 @@ if __name__ == "__main__":
 
             if metrics_valid is not None:
                 for key, value in result_metrics_valid.items():
-                    metric_value = torch.tensor(value, dtype=torch.float64).item()
+                    metric_value = torch.tensor(
+                        value, dtype=torch.float64).item()
                     results[key].append(metric_value)
 
             if metrics_train is not None:
                 for key, value in result_metrics_train.items():
-                    metric_value = torch.tensor(value, dtype=torch.float64).item()
+                    metric_value = torch.tensor(
+                        value, dtype=torch.float64).item()
                     results[key].append(metric_value)
 
             results_to_save = pd.DataFrame(results)
-            results_to_save.to_csv(saving_name.replace(".pth", ".csv"), index=False)
+            results_to_save.to_csv(
+                saving_name.replace(".pth", ".csv"), index=False)
 
         except KeyboardInterrupt as e:
             logging.info(e, 'Saving plots')
