@@ -71,16 +71,16 @@ if __name__ == "__main__":
     DATA_PATH = os.path.join(args.input, data_cfg.data_root)
     SAVE_PATH = os.path.join(USER_ROOT, data_cfg.save_training_results)
     TRAIN_DATA_PATH = os.path.join(
-        USER_ROOT, data_cfg.data_root, inf_cfg.train_data)
+        DATA_PATH, data_cfg.data_root, inf_cfg.train_data)
     VALID_DATA_PATH = os.path.join(
-        USER_ROOT, data_cfg.data_root, inf_cfg.valid_data)
+        DATA_PATH, data_cfg.data_root, inf_cfg.valid_data)
 
     COCO_TEST_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_test_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_test_data)
     COCO_TRAIN_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_train_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_train_data)
     COCO_VALID_DATA = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.coco_valid_data)
+        DATA_PATH, data_cfg.data_root, data_cfg.coco_valid_data)
 
     # Split with fixed stimuli IDs
     TRAIN_STIMULI = os.path.join(
@@ -286,7 +286,8 @@ if __name__ == "__main__":
 
         model_dir = pretrained_model_dir.replace(
             ".pth", '_{}.pth'.format(args.load_epoch))
-        model.load_state_dict(torch.load(model_dir))
+        model.load_state_dict(torch.load(
+            model_dir, map_location=torch.device('cuda:0')))
         model.eval()
         results = pd.read_csv(pretrained_model_dir.replace(".pth", ".csv"))
         results = {col_name: list(results[col_name].values)
