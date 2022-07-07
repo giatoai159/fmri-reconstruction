@@ -2,6 +2,20 @@
 
 ## Hướng dẫn cài đặt
 
+### Các thư viện quan trọng
+
+-   Python 3.6.11
+-   PyTorch 1.4.0
+-   Torchvision 0.5.0
+-   Tensorboard 2.4.1
+-   Numpy 1.19.2
+-   Pandas 1.1.3
+-   Matplotlib 3.3.2
+
+Các thư viện sẽ nằm trong file `environment.yml`.
+
+### Hướng dẫn cài đặt
+
 Để có thể chạy chương trình, ta nên sử dụng một môi trường Python riêng biệt thông qua Anaconda hoặc Miniconda (trên Linux).
 
 Chạy lệnh `conda env create -f environment.yml` để tạo môi trường từ file `environment.yml`
