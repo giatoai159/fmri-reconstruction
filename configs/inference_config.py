@@ -3,7 +3,7 @@
 train_data = 'BOLD5000/bold_train/bold_CSI4_pad.pickle'
 valid_data = 'BOLD5000/bold_train/bold_CSI4_pad.pickle'
 
-"""_______________Dual-VAE/GAN  Stage III resolution 64____________________"""
+"""_______________Dual-VAE/GAN____________________"""
 
 dataset = 'bold'       # 'bold' or 'coco'
 mode = 'vae-gan'
@@ -18,11 +18,11 @@ load_epoch = 200
 evaluate = True       # True if you want to evaluate
 save = True         # True to save images
 save_to_folder = None  # specify folder name if you want to save in specific directory
-file_to_save = None    # save .csv file with results
+file_to_save = 'results.csv'   # save .csv file with results
 
 image_crop = 375
 image_size = 100
-latent_dim = 512
+latent_dim = 128
 
 batch_size = 64
 num_workers = 4

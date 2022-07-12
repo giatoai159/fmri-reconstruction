@@ -1,6 +1,6 @@
 """____________________Config for Dual-VAE/GAN training___________________________"""
 
-pretrained_gan = 'gan_20210413-102934'  # 'gan_cogenc_20210131-183016'
+pretrained_gan = None
 load_epoch = 335
 evaluate = False
 
@@ -42,8 +42,8 @@ std = [0.5, 0.5, 0.5]
 
 # [model, epoch]
 # Trained model for stage II (model from stage I)
-decoder_weights = ['gan_20210127-012348', 90]       # latent dim = 128
+decoder_weights = ['gan_20220701-145331', 90]       # latent dim = 128
 
 
 # Trained model for stage III (model from stage II)
-cog_encoder_weights = ['gan_cog_2st_20210223-224153', 395]
+cog_encoder_weights = ['gan_cog_2st_20220624-104800', 395]
