@@ -387,35 +387,23 @@ class VaeGanCognitive(nn.Module):
 
             if self.training:
 
-                if self.mode == 'vae':
+                mus, log_variances = self.encoder(x)
+                z = self.reparameterize(mus, log_variances)
+                x_tilde = self.decoder(z)
 
-                    mus, log_variances = self.encoder(x)
-                    z = self.reparameterize(mus, log_variances)
-                    x_tilde = self.decoder(z)
+                if self.teacher_net is not None and self.stage == 2:
 
-                    if self.teacher_net is not None and self.stage == 2:
-
-                        for param in self.teacher_net.encoder.parameters():
-                            param.requires_grad = False
-
-                        # Inter-modality knowledge distillation
-                        mu_teacher, logvar_teacher = self.teacher_net.encoder(
-                            gt_x)
-                        # Re-parametrization trick
-                        z_teacher = self.reparameterize(
-                            mu_teacher, logvar_teacher)
-                        # Reconstruct gt by the teacher net
-                        gt_x = self.decoder(z_teacher)
-
-                elif self.mode == 'wae':
-
-                    mus, log_variances = self.encoder(x)
-                    x_tilde = self.decoder(mus)
+                    for param in self.teacher_net.encoder.parameters():
+                        param.requires_grad = False
 
                     # Inter-modality knowledge distillation
-                    mu_teacher, logvar_teacher = self.teacher_net.encoder(gt_x)
+                    mu_teacher, logvar_teacher = self.teacher_net.encoder(
+                        gt_x)
+                    # Re-parametrization trick
+                    z_teacher = self.reparameterize(
+                        mu_teacher, logvar_teacher)
                     # Reconstruct gt by the teacher net
-                    gt_x = self.decoder(mu_teacher)
+                    gt_x = self.decoder(z_teacher)
 
                 z_p = Variable(torch.randn(len(x), self.z_size).to(
                     self.device), requires_grad=True)

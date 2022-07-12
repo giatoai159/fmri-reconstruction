@@ -390,17 +390,6 @@ if __name__ == "__main__":
                 # Train encoder except DCGAN mode
                 train_enc = True
 
-                # Beta-VAE/GAN loss
-                if args.mode == 'beta-vae':
-                    beta = args.beta
-                    kld_weight = 1 / batch_size
-                    loss_encoder = torch.sum(
-                        kld) * beta * kld_weight + torch.sum(mse)
-                    loss_discriminator = torch.sum(bce_dis_original) + torch.sum(bce_dis_predicted) + torch.sum(
-                        bce_dis_sampled)
-                    loss_decoder = torch.sum(
-                        args.lambda_mse * mse) - (1.0 - args.lambda_mse) * loss_discriminator
-
                 # VAE/GAN loss
                 if args.mode == 'vae-gan':
                     loss_encoder = torch.sum(kld) + torch.sum(mse)
@@ -408,17 +397,6 @@ if __name__ == "__main__":
                         bce_dis_sampled)
                     loss_decoder = torch.sum(
                         args.lambda_mse * mse) - (1.0 - args.lambda_mse) * loss_discriminator
-
-                # DC/GAN loss
-                if args.mode == 'dcgan':
-                    train_enc = False  # Do not train visual encoder
-                    for param in model.encoder.parameters():
-                        param.requires_grad = False
-                    loss_encoder = torch.sum(kld) + torch.sum(nle)
-                    loss_discriminator = torch.sum(
-                        bce_dis_original) + torch.sum(bce_dis_sampled)
-                    loss_decoder = torch.sum(
-                        args.lambda_mse * nle) - (1.0 - args.lambda_mse) * loss_discriminator
 
                 # VAE loss
                 if args.mode == 'vae':

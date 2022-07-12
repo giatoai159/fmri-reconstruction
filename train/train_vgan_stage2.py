@@ -257,9 +257,9 @@ if __name__ == "__main__":
     for param in teacher_model.decoder.parameters():
         param.requires_grad = False
 
-    logging.info('Number of voxels:', NUM_VOXELS)
-    logging.info('Training data length:', len(train_data))
-    logging.info('Validation data length:', len(valid_data))
+    logging.info('Number of voxels:%s', NUM_VOXELS)
+    logging.info('Training data length:%s', len(train_data))
+    logging.info('Validation data length:%s', len(valid_data))
 
     # Define model
     cognitive_encoder = CognitiveEncoder(

@@ -248,9 +248,9 @@ if __name__ == "__main__":
     writer_discriminator = SummaryWriter(
         saving_dir + '/runs_' + timestep + '/discriminator')
 
-    logging.info('Number of voxels:', NUM_VOXELS)
-    logging.info('Training data length:', len(train_data))
-    logging.info('Validation data length:', len(valid_data))
+    logging.info('Number of voxels:%s', NUM_VOXELS)
+    logging.info('Training data length:%s', len(train_data))
+    logging.info('Validation data length:%s', len(valid_data))
 
     # Teacher model from stage I
     encoder = Encoder(z_size=args.latent_dim).to(device)

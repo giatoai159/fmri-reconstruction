@@ -84,9 +84,9 @@ if __name__ == "__main__":
 
     # Split with fixed stimuli IDs
     TRAIN_STIMULI = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.train_stimuli_split)
+        DATA_PATH, data_cfg.data_root, data_cfg.train_stimuli_split)
     VALID_STIMULI = os.path.join(
-        USER_ROOT, data_cfg.data_root, data_cfg.valid_stimuli_split)
+        DATA_PATH, data_cfg.data_root, data_cfg.valid_stimuli_split)
 
     # Create directory to save weights
     if not os.path.exists(SAVE_PATH):
@@ -237,9 +237,9 @@ if __name__ == "__main__":
         saving_dir + '/runs_' + timestep + '/discriminator')
 
     NUM_VOXELS = len(train_data[0]['fmri'])
-    logging.info('Number of voxels:', NUM_VOXELS)
-    logging.info('Training data length:', len(train_data))
-    logging.info('Validation data length:', len(valid_data))
+    logging.info('Number of voxels:%s', NUM_VOXELS)
+    logging.info('Training data length:%s', len(train_data))
+    logging.info('Validation data length:%s', len(valid_data))
 
     # Define model
     if args.dataset == 'coco':
